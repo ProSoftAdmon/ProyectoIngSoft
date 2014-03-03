@@ -1,0 +1,17 @@
+  
+APORTE PARA CONTROL DE VERSIONES OPERADO POR GITHUB (CVS)
+DISEÑADO POR FELIPE RAMIREZ
+CARGO : ADMINISTRADOR DE CONFIGURACIONES
+
+PROSOFT, pretende implementar un sistema de información para control de versiones para el proyecto propuesto anteriormente. Se escoge como herramienta de apoyo GitHub, este es un software de control de versiones  y mantenimiento de versiones de aplicaciones cuando se tiene un gran número de archivos de código fuente.
+Este software nos aportara con:
+•	Control sobre el código: saber quién ha tocado qué y cuándo
+•	Control sobre cómo ha cambiado nuestro proyecto con el paso del tiempo
+•	Volver hacia atrás de una forma rápida
+•	Control de versiones a través de etiquetas: versión 1.0, versión 1.0.1, versión 1.1, etc. Sabremos exactamente que había en cada una de ellas y las diferencias entre cualquiera de ellas dos
+•	Seguridad: todas las estructuras internas de datos están firmadas con SHA1 (Seguridad). No se puede cambiar el código sin que nos enteremos
+•	Mejora la capacidad de trabajar en equipo
+•	Merging y branching extremadamente eficientes (Entiéndase como duplicación y fusión).
+
+
+GitHub trabaja como sistema distribuido, dado así, se podrá tener un total acceso al repositorio, local o externamente. Se crea una cuenta en el repositorio que será usado y administrado solo por el encargado (Felipe Ramírez), a su vez, podrán acceder los diferentes integrantes del proyecto.
