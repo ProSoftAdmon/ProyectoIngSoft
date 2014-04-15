@@ -4,9 +4,12 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:digits="abcdefghijklmnñopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ áéíóú"
+        android:hint="Buscar un Lugar Ej: Javeriana"
+        android:singleLine="true" >
 
         <requestFocus />
     </EditText>
