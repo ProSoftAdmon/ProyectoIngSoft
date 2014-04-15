@@ -3,23 +3,35 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/search"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:digits="abcdefghijklmnñopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ áéíóú"
-        android:hint="Buscar un Lugar Ej: Javeriana"
-        android:singleLine="true" >
+        android:orientation="horizontal" >
 
-        <requestFocus />
-    </EditText>
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.76"
+            android:ems="10"
+            android:hint="Buscar un Lugar Ej: Javeriana"
+            android:singleLine="true" />
 
-    <fragment 
-        android:name="com.google.android.gms.maps.MapFragment"
+        <Button
+            android:id="@+id/Buscar"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dip"
+            android:layout_height="48dip"
+            android:onClick=""
+            android:text="Buscar" />
+    </LinearLayout>
+
+    <fragment
         xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         map:cameraBearing="90"
         map:cameraTargetLat="4.628613"
         map:cameraTargetLng="-74.064032"

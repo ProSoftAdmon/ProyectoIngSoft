@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.bitwise.neojav.R.id;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -31,6 +32,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends Activity {
@@ -39,6 +42,7 @@ public class MainActivity extends Activity {
 	private static Object lng;
 	private static Object place;
 	private EditText search;
+	private Button enter;
 	private GoogleMap mMap;
 
     @Override
@@ -48,6 +52,33 @@ public class MainActivity extends Activity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         search = (EditText)findViewById(R.id.search);
+        enter = (Button) findViewById(R.id.Buscar);
+        enter.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				String text = search.getText().toString();
+				if(!text.isEmpty())
+				{
+					getLatLongFromAddress(trimer(text.trim()));
+					mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+					mMap.clear();
+					LatLng position = new LatLng(Double.parseDouble(lat.toString()), Double.parseDouble(lng.toString()));
+					mMap.addMarker(new MarkerOptions()
+					        .position(position)
+					        .title(place.toString().split(",")[0])
+					        .snippet(place.toString()));
+					CameraPosition cameraPosition = new CameraPosition.Builder()
+							.target(position)
+							.zoom(16)             // Sets the zoom
+						    .bearing(90)                // Sets the orientation of the camera to east
+						    .tilt(0)
+						    .build();
+					mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+				}
+			}
+		});
         search.setOnKeyListener(new View.OnKeyListener() {
 			
 			@Override
