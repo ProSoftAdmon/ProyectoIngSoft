@@ -1,8 +1,12 @@
 package com.bitwise.neojav;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,21 +18,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.bitwise.neojav.R.id;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -51,8 +51,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        cargarMarkers();
         search = (EditText)findViewById(R.id.search);
-        enter = (Button) findViewById(R.id.Buscar);
+        enter = (Button) findViewById(R.id.Buscar);        
         enter.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -64,6 +65,7 @@ public class MainActivity extends Activity {
 					getLatLongFromAddress(trimer(text.trim()));
 					mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 					mMap.clear();
+					cargarMarkers();
 					LatLng position = new LatLng(Double.parseDouble(lat.toString()), Double.parseDouble(lng.toString()));
 					mMap.addMarker(new MarkerOptions()
 					        .position(position)
@@ -90,6 +92,7 @@ public class MainActivity extends Activity {
 						getLatLongFromAddress(trimer(text.trim()));
 						mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 						mMap.clear();
+						cargarMarkers();
 						LatLng position = new LatLng(Double.parseDouble(lat.toString()), Double.parseDouble(lng.toString()));
 						mMap.addMarker(new MarkerOptions()
 						        .position(position)
@@ -108,6 +111,28 @@ public class MainActivity extends Activity {
 				return false;
 			}
 		});
+    }
+    
+    public void cargarMarkers(){
+    	mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+    	String texto;
+		try {
+			FileReader lector=new FileReader("markers.nja");
+			BufferedReader contenido=new BufferedReader(lector);
+			while((texto=contenido.readLine())!=null)
+			{
+				StringTokenizer st = new StringTokenizer(texto, "|");
+				String[] temp = st.nextToken().split(",");
+				LatLng position = new LatLng(Double.parseDouble(temp[0]),Double.parseDouble(temp[1]));
+				mMap.addMarker(new MarkerOptions()
+						.position(position)
+						.title(st.nextToken())
+						.snippet(st.nextToken()));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     public String trimer(String s){
@@ -166,9 +191,6 @@ public class MainActivity extends Activity {
             lat = ((JSONArray)jsonObject.get("results")).getJSONObject(0)
                 .getJSONObject("geometry").getJSONObject("location")
                 .getDouble("lat");
-
-            Log.d("latitude", lat.toString());
-            Log.d("longitude", lng.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
