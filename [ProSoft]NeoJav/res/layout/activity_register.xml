@@ -1,0 +1,56 @@
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	    android:gravity="center" >
+	        
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center"
+	            android:text="Nombre de Usuario:" />
+	        
+	        <Space 
+	            android:layout_width="match_parent"
+	            android:layout_height="5dp"/>
+	        
+	        <EditText
+	            android:id="@+id/newusername"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:singleLine="true" />
+	        
+	        <Space 
+	            android:layout_width="match_parent"
+	            android:layout_height="5dp"/>
+	        
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center"
+	            android:text="Contraseña:" />
+	        
+	        <Space 
+	            android:layout_width="match_parent"
+	            android:layout_height="5dp"/>
+	        
+	        <EditText
+	            android:id="@+id/newpassword"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:password="true"
+	            android:singleLine="true" />
+	        
+	        <Button
+	            android:id="@+id/registrar"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center"
+	            android:text="Registrar" />
+	    
+	</LinearLayout>
+</AbsoluteLayout>
