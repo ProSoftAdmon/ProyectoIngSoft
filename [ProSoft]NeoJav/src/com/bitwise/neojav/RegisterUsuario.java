@@ -1,6 +1,6 @@
 package com.bitwise.neojav;
 
-import DataBase.ConectarDB;
+import DataBase.RemoteDB;
 import Logica.Dialogo;
 import android.app.Activity;
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class RegisterActivity extends Activity {
+public class RegisterUsuario extends Activity {
 
 	private EditText user;
 	private EditText pass;
@@ -33,7 +33,7 @@ public class RegisterActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if(!user.getText().toString().isEmpty() && !pass.getText().toString().isEmpty()){
-					ConectarDB ini = new ConectarDB();
+					RemoteDB ini = new RemoteDB();
 					ini.setmUrl("http://omargonzalez.dx.am/NeoJav/Login/adduser.php?usuario="+user.getText()+"&password="+pass.getText());
 					ini.start();
 					boolean flag = false;
@@ -53,7 +53,7 @@ public class RegisterActivity extends Activity {
 						String s = ini.getResponse();
 						if(!s.trim().equals("YaExiste")){
 							if(!s.equals("Error")){
-								Intent i = new Intent(RegisterActivity.this,BuscarLugar.class);
+								Intent i = new Intent(RegisterUsuario.this,DrawerActivity.class);
 								startActivity(i);
 							}
 							else{

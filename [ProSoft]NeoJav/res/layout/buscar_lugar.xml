@@ -1,0 +1,93 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The main content view -->
+
+    <FrameLayout
+        android:id="@+id/content_frame2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/buscarlugar_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.76"
+                    android:ems="10"
+                    android:hint="Buscar un Lugar Ej: Javeriana"
+                    android:singleLine="true" />
+
+                <Button
+                    android:id="@+id/Buscar"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="90dip"
+                    android:layout_height="48dip"
+                    android:onClick=""
+                    android:text="Buscar" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/mapContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <fragment
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
+                    map:cameraBearing="90"
+                    map:cameraTargetLat="4.628613"
+                    map:cameraTargetLng="-74.064032"
+                    map:cameraTilt="0"
+                    map:cameraZoom="16"
+                    map:mapType="hybrid"
+                    map:uiCompass="false"
+                    map:uiRotateGestures="false"
+                    map:uiScrollGestures="true"
+                    map:uiTiltGestures="true"
+                    map:uiZoomControls="false"
+                    map:uiZoomGestures="true" />
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer2"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#111"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+    <ListView
+        android:id="@+id/right_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="#111"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

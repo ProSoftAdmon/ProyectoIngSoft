@@ -3,7 +3,7 @@ package com.bitwise.neojav;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import DataBase.ConectarDB;
+import DataBase.RemoteDB;
 import DataBase.LocalDB;
 import Logica.Dialogo;
 import android.app.ActionBar;
@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class IniciarSesion extends Activity {
 
     private EditText username;
     private EditText password;
@@ -27,9 +27,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_activity);
-		sqlite = new LocalDB(MainActivity.this, "local");
+		sqlite = new LocalDB(IniciarSesion.this, "local");
 		if(sqlite.consultarUser().equals("si")){
-			Intent i = new Intent(MainActivity.this,BuscarLugar.class);
+			Intent i = new Intent(IniciarSesion.this,DrawerActivity.class);
 			startActivity(i);
 		}
 		ActionBar actionBar = getActionBar();
@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
 	public void IniciarSesionClick(View v){
 		try {
 			JSONArray j = null;
-			ConectarDB ini = new ConectarDB();
+			RemoteDB ini = new RemoteDB();
 			ini.setmUrl("http://omargonzalez.dx.am/NeoJav/Login/acces.php?usuario="+username.getText()+"&password="+password.getText());
 			ini.start();
 			boolean flag = false;
@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
 				System.out.println(s.equals("si"));
 				if(s.equals("si")){
 					sqlite.guardarUser(username.getText().toString(), password.getText().toString());
-					Intent i = new Intent(MainActivity.this,BuscarLugar.class);
+					Intent i = new Intent(IniciarSesion.this,DrawerActivity.class);
 					startActivity(i);
 				}
 				else{
@@ -89,7 +89,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void RegistrarseClick(View v){
-		Intent i = new Intent(MainActivity.this,RegisterActivity.class);
+		Intent i = new Intent(IniciarSesion.this,RegisterUsuario.class);
 		startActivity(i);
 	}
 }

@@ -6,5 +6,25 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_buscar_lugar">Buscar Lugar</string>
     <string name="title_activity_register">Registrar Nuevo Usuario</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string-array name="drawer_array">
+        <item>NeoJav</item>
+        <item>BuscarLugar</item>
+        <item>Directorio</item>
+    </string-array>
+    <string-array name="drawer_array2">
+        <item>Cafeterias</item>
+        <item>Capillas</item>
+        <item>Computadores</item>
+        <item>Tienda Javeriana</item>
+        <item>Cajeros</item>
+        <item>Edificios</item>
+        <item>Todo</item>
+    </string-array>
+
+    <string name="title_activity_drawer">Menu</string>
+    <string name="title_activity_directorio">Directorio</string>
 
 </resources>

@@ -5,12 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-public class LocalDB extends SQLiteOpenHelper {
+public class LocalDB extends SQLiteOpenHelper implements ILocalDB{
 
     public LocalDB(Context context, String nombre) {
         super(context, nombre, null, 1);
@@ -38,48 +33,9 @@ public class LocalDB extends SQLiteOpenHelper {
     	return s;
     }
     
-    public void cargarMarkers(GoogleMap mMap){
-        SQLiteDatabase bd=this.getWritableDatabase();
-        Cursor fila=bd.rawQuery("select * from markers",null);
-        fila.moveToFirst();
-        while (!fila.isAfterLast()) {
-        	System.out.println(fila.getString(0)+ fila.getString(1));
-        	mMap.addMarker(new MarkerOptions()
-					.position(new LatLng(Double.parseDouble(fila.getString(0)), Double.parseDouble(fila.getString(1))))
-					.title(fila.getString(2))
-					.snippet(fila.getString(3))
-					.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-            fila.moveToNext();
-        }
-        bd.close();
-    }
-    
     public void guardarUser(String user,String contrasena){
     	SQLiteDatabase bd=this.getWritableDatabase();
     	bd.execSQL("INSERT INTO localUser (username,contrasena) VALUES ('"+user+"','"+contrasena+"') "); 
     	bd.close();
     }
-    
-    /*public void copyDataBase(){
-    	try {
-            File sd = Environment.getExternalStorageDirectory();
-            File data = Environment.getDataDirectory();
-
-            //if (sd.canWrite()) {
-                String currentDBPath = "//data//"+ "com.bitwise.neojav//databases//administracion";
-                String backupDBPath = "administracion";
-                File currentDB = new File(data, currentDBPath);
-                File backupDB = new File(sd+"/backups/", backupDBPath);
-                FileChannel src = new FileInputStream(currentDB).getChannel();
-                FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                System.out.println(currentDB.getAbsolutePath()+"||"+backupDB.getAbsolutePath());
-                dst.transferFrom(src, 0, src.size());
-                src.close();
-                dst.close();
-
-           // }
-        } catch (Exception e) {
-        	System.out.println("error" + e.getMessage());
-        }
-    }*/
 }

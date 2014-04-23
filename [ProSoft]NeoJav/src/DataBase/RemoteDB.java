@@ -11,17 +11,24 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.util.Log;
 
-public class ConectarDB extends Thread {
+public class RemoteDB extends Thread implements IRemoteDB{
 
 	private String response;
-	private String mURL;
+	private String mURL = "http://omargonzalez.dx.am/";
+	//private RemoteDB rDB;
 	
-	public ConectarDB() {
+	public RemoteDB() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public void run() {
+		conectarRemoteDB();
+		super.run();
+	}
+	
+	public void conectarRemoteDB()
+	{
 		response = "";
 		mURL = mURL.replace(" ", "%20");
 		Log.i("LocAndroid Response HTTP Threas", "Ejecutando get 0: " + mURL);
@@ -40,7 +47,6 @@ public class ConectarDB extends Thread {
 		} catch (IOException e) {
 			Log.i("LocAndroid Response HTTP ERROR 2", e.getMessage());
 		}
-		super.run();
 	}
 	
 	public String getResponse() {
