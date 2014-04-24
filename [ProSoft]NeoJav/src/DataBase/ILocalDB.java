@@ -6,4 +6,5 @@ public interface ILocalDB {
     
     public void guardarUser(String user,String contrasena);
 	
+    public void borrarUser();
 }

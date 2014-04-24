@@ -1,28 +1,11 @@
 package com.bitwise.neojav;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.StringTokenizer;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import DataBase.RemoteDB;
 import DataBase.LocalDB;
-import Logica.Dialogo;
 import Logica.IUtils;
 import Logica.Utils;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -46,25 +29,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class BuscarLugar extends Activity {
-
-	/*private static Object lat;
-	private static Object lng;
-	private static Object place;*/
 	
-	private IUtils ut;
+	private IUtils ut = new Utils();
 	
 	private EditText search;
 	private Button enter;
@@ -146,7 +123,7 @@ public class BuscarLugar extends Activity {
 				.permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		setUpMapIfNeeded();
-		ut.cargarMarkersPHP(getFragmentManager(),mMap);
+		ut.cargarMarkersPHP(getFragmentManager(),mMap,"Auditorios");
 		search = (EditText) findViewById(R.id.search);
 		enter = (Button) findViewById(R.id.Buscar);
 		enter.setOnClickListener(new OnClickListener() {
@@ -176,7 +153,7 @@ public class BuscarLugar extends Activity {
 			ut.getLatLongFromAddress(ut.trimer(text.trim()));
 			setUpMapIfNeeded();
 			mMap.clear();
-			ut.cargarMarkersPHP(getFragmentManager(),mMap);
+			ut.cargarMarkersPHP(getFragmentManager(),mMap,"Auditorios");
 			LatLng position = new LatLng(Double.parseDouble(Utils.getLat()
 					.toString()),
 					Double.parseDouble(Utils.getLng().toString()));
@@ -211,45 +188,6 @@ public class BuscarLugar extends Activity {
 		super.onResume();
 	}
 
-	/*private void cargarMarkersPHP() {
-		try {
-			JSONArray j = null;
-			RemoteDB ini = new RemoteDB();
-			ini.setmUrl(ini.getmUrl()+"NeoJav/Markers/consultarMarker.php");
-			ini.start();
-			boolean flag = false;
-			Dialogo d = new Dialogo();
-			while (ini.isAlive()) {
-				if (!flag) {
-					d.setButtons(1);
-					d.setTitle("Conectando");
-					d.setMessage("Conectando a la base de datos espere porfavor...");
-					d.setPosMes("Ok");
-					flag = true;
-					d.show(getFragmentManager(), "Conectando");
-				}
-			}
-			d.dismiss();
-			if (ini.getResponse().length() > 1) {
-				StringTokenizer st = new StringTokenizer(ini.getResponse(), "]");
-				while (st.hasMoreTokens()) {
-					j = new JSONArray(st.nextToken() + "]");
-					mMap.addMarker(new MarkerOptions()
-							.position(
-									new LatLng(Double.parseDouble(j
-											.getString(0)), Double
-											.parseDouble(j.getString(1))))
-							.title(j.getString(2))
-							.snippet(j.getString(3))
-							.icon(BitmapDescriptorFactory
-									.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-				}
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}*/
-
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(BuscarLugar.this, DrawerActivity.class);
@@ -257,16 +195,6 @@ public class BuscarLugar extends Activity {
 		startActivity(intent);
 		finish();
 	}
-
-	/*public String trimer(String s) {
-		String ret = new String();
-		for (int i = 0; i < s.length(); i++) {
-			if (s.charAt(i) != ' ') {
-				ret += s.charAt(i);
-			}
-		}
-		return ret;
-	}*/
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -326,48 +254,6 @@ public class BuscarLugar extends Activity {
 		return true;
 	}
 
-	/*public void getLatLongFromAddress(String youraddress) {
-		String uri = "http://maps.google.com/maps/api/geocode/json?address="
-				+ youraddress + ",Bogota&sensor=false";
-		HttpGet httpGet = new HttpGet(uri);
-		HttpClient client = new DefaultHttpClient();
-		HttpResponse response;
-		StringBuilder stringBuilder = new StringBuilder();
-
-		try {
-			response = client.execute(httpGet);
-			HttpEntity entity = response.getEntity();
-			InputStream stream = entity.getContent();
-			int b;
-			while ((b = stream.read()) != -1) {
-				stringBuilder.append((char) b);
-			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		JSONObject jsonObject = new JSONObject();
-		try {
-			jsonObject = new JSONObject(stringBuilder.toString());
-
-			place = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
-					.getString("formatted_address");
-
-			lng = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
-					.getJSONObject("geometry").getJSONObject("location")
-					.getDouble("lng");
-
-			lat = ((JSONArray) jsonObject.get("results")).getJSONObject(0)
-					.getJSONObject("geometry").getJSONObject("location")
-					.getDouble("lat");
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-	}*/
-
 	public LocalDB getAdmin() {
 		return admin;
 	}
@@ -415,19 +301,77 @@ public class BuscarLugar extends Activity {
 	}
 
 	private void selectItem2(int position) {
-		if (position == 0) {
-
-		} else {
-			/*
-			 * Fragment fragment = new PlanetFragment(); Bundle args = new
-			 * Bundle(); args.putInt(PlanetFragment.ARG_PLANET_NUMBER,
-			 * position); fragment.setArguments(args);
-			 * 
-			 * FragmentManager fragmentManager = getFragmentManager();
-			 * fragmentManager.beginTransaction().replace(R.id.content_frame2,
-			 * fragment).commit(); mDrawerList.setItemChecked(position, true);
-			 * setTitle(s[position]); mDrawerLayout.closeDrawer(mDrawerList);
-			 */
+		MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+		FrameLayout f = (FrameLayout) findViewById(R.id.mapContainer);
+		Display display = getWindowManager().getDefaultDisplay();
+		mMap.clear();
+		switch(position){
+		case 0:
+			ut.cargarMarkersPHP(getFragmentManager(), mMap, "Auditorios");
+			mDrawerLayout2.closeDrawer(Gravity.END);
+			m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			f.setPadding(0, 0, 0, 0);
+			break;
+		case 1:
+			ut.cargarMarkersPHP(getFragmentManager(), mMap, "Cafeterias");
+			mDrawerLayout2.closeDrawer(Gravity.END);
+			m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			f.setPadding(0, 0, 0, 0);
+			break;
+		case 2:
+			ut.cargarMarkersPHP(getFragmentManager(), mMap, "Capillas");
+			mDrawerLayout2.closeDrawer(Gravity.END);
+			m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			f.setPadding(0, 0, 0, 0);
+			break;
+		case 3:
+			ut.cargarMarkersPHP(getFragmentManager(), mMap, "Computadores");
+			mDrawerLayout2.closeDrawer(Gravity.END);
+			m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			f.setPadding(0, 0, 0, 0);
+			break;
+		case 4:
+			ut.cargarMarkersPHP(getFragmentManager(), mMap, "TiendaJaveriana");
+			mDrawerLayout2.closeDrawer(Gravity.END);
+			m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			f.setPadding(0, 0, 0, 0);
+			break;
+		case 5:
+			ut.cargarMarkersPHP(getFragmentManager(), mMap, "Cajeros");
+			mDrawerLayout2.closeDrawer(Gravity.END);
+			m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			f.setPadding(0, 0, 0, 0);
+			break;
+		case 6:
+			ut.cargarMarkersPHP(getFragmentManager(), mMap, "Edificios");
+			mDrawerLayout2.closeDrawer(Gravity.END);
+			m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			f.setPadding(0, 0, 0, 0);
+			break;
+		case 7:
+			ut.cargarMarkersPHP(getFragmentManager(), mMap, "LugaresOcio");
+			mDrawerLayout2.closeDrawer(Gravity.END);
+			m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			f.setPadding(0, 0, 0, 0);
+			break;
+		case 8:
+			ut.cargarMarkersPHP(getFragmentManager(), mMap, "Tiendas");
+			mDrawerLayout2.closeDrawer(Gravity.END);
+			m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			f.setPadding(0, 0, 0, 0);
+			break;
+		case 9:
+			ut.cargarMarkersPHP(getFragmentManager(), mMap, "Restaurantes");
+			mDrawerLayout2.closeDrawer(Gravity.END);
+			m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			f.setPadding(0, 0, 0, 0);
+			break;
+		case 10:
+			ut.cargarMarkersPHP(getFragmentManager(), mMap, "Todo");
+			mDrawerLayout2.closeDrawer(Gravity.END);
+			m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			f.setPadding(0, 0, 0, 0);
+			break;
 		}
 	}
 

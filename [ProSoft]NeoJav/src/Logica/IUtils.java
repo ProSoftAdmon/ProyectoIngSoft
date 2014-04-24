@@ -7,7 +7,7 @@ public interface IUtils {
 	
 	public String cargarDirectorio(FragmentManager fM);
 	
-	public void cargarMarkersPHP(FragmentManager fM,GoogleMap mMap);
+	public void cargarMarkersPHP(FragmentManager fM,GoogleMap mMap,String parametro);
 
 	public void getLatLongFromAddress(String youraddress);
 	

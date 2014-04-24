@@ -13,14 +13,19 @@
         <item>NeoJav</item>
         <item>BuscarLugar</item>
         <item>Directorio</item>
+        <item>Cerrar Sesion</item>
     </string-array>
     <string-array name="drawer_array2">
+        <item>Auditorios</item>
         <item>Cafeterias</item>
         <item>Capillas</item>
         <item>Computadores</item>
         <item>Tienda Javeriana</item>
         <item>Cajeros</item>
         <item>Edificios</item>
+        <item>Lugares De Ocio</item>
+        <item>Tiendas</item>
+        <item>Restaurantes</item>
         <item>Todo</item>
     </string-array>
 

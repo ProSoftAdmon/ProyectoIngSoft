@@ -38,4 +38,10 @@ public class LocalDB extends SQLiteOpenHelper implements ILocalDB{
     	bd.execSQL("INSERT INTO localUser (username,contrasena) VALUES ('"+user+"','"+contrasena+"') "); 
     	bd.close();
     }
+    
+    public void borrarUser(){
+    	SQLiteDatabase bd=this.getWritableDatabase();
+    	bd.delete("localUser", "", null);
+    	bd.close();
+    }
 }

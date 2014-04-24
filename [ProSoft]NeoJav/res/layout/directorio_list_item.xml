@@ -3,30 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
+
     <TextView
+        android:id="@+id/id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="left"
         android:text="Indice+Dependencia"
-        android:textStyle="bold"
-        android:gravity="left"
         android:textSize="17sp"
-        android:id="@+id/id" />
-    
+        android:textStyle="bold" />
+
     <TextView
+        android:id="@+id/nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nombre+Apellido+Cargo"
-        android:textStyle="italic"
         android:gravity="left"
-        android:id="@+id/nombre" />
-    
+        android:text="Nombre+Apellido+Cargo"
+        android:textStyle="italic" />
+
     <TextView
+        android:id="@+id/ext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="Extension: "
-        android:textColor="@android:color/darker_gray"
-        android:id="@+id/ext" />
+        android:textColor="@android:color/darker_gray" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
 
 </LinearLayout>

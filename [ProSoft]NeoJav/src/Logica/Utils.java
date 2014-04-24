@@ -54,11 +54,13 @@ public class Utils implements IUtils{
 		return null;
 	}
 	
-	public void cargarMarkersPHP(FragmentManager fM,GoogleMap mMap) {
+	public void cargarMarkersPHP(FragmentManager fM,GoogleMap mMap,String param) {
 		try {
+			float color = 0;
+			
 			JSONArray j = null;
 			RemoteDB ini = new RemoteDB();
-			ini.setmUrl(ini.getmUrl()+"NeoJav/Markers/consultarMarker.php");
+			ini.setmUrl(ini.getmUrl()+"NeoJav/Markers/consultarMarker.php?categoria="+param);
 			ini.start();
 			boolean flag = false;
 			Dialogo d = new Dialogo();
@@ -75,8 +77,30 @@ public class Utils implements IUtils{
 			d.dismiss();
 			if (ini.getResponse().length() > 1) {
 				StringTokenizer st = new StringTokenizer(ini.getResponse(), "]");
+				String parametro = new String();
 				while (st.hasMoreTokens()) {
 					j = new JSONArray(st.nextToken() + "]");
+					parametro = j.getString(4);
+					if(parametro.equals("Auditorios"))
+						color =BitmapDescriptorFactory.HUE_GREEN;
+					else if(parametro.equals("Cafeterias"))
+						color = BitmapDescriptorFactory.HUE_ORANGE;
+					else if(parametro.equals("Capillas"))
+						color = BitmapDescriptorFactory.HUE_AZURE;
+					else if(parametro.equals("Computadores"))
+						color = BitmapDescriptorFactory.HUE_BLUE;
+					else if(parametro.equals("Tienda Javeriana"))
+						color = BitmapDescriptorFactory.HUE_RED;
+					else if(parametro.equals("Cajeros"))
+						color = BitmapDescriptorFactory.HUE_CYAN;
+					else if(parametro.equals("Edificios"))
+						color = BitmapDescriptorFactory.HUE_ORANGE;
+					else if(parametro.equals("LugaresDeOcio"))
+						color = BitmapDescriptorFactory.HUE_MAGENTA;
+					else if(parametro.equals("Tiendas"))
+						color = BitmapDescriptorFactory.HUE_YELLOW;
+					else if(parametro.equals("Restaurantes"))
+						color = BitmapDescriptorFactory.HUE_VIOLET;
 					mMap.addMarker(new MarkerOptions()
 							.position(
 									new LatLng(Double.parseDouble(j
@@ -85,7 +109,7 @@ public class Utils implements IUtils{
 							.title(j.getString(2))
 							.snippet(j.getString(3))
 							.icon(BitmapDescriptorFactory
-									.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+									.defaultMarker(color)));
 				}
 			}
 		} catch (JSONException e) {
