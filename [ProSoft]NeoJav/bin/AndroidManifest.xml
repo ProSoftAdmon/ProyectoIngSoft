@@ -42,10 +42,10 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDKsNQ6L0dxFcTGXLNfujnZsrp6dNjEV6k" />
-        <!-- Llave de Debug -->
+        <!-- Llave de Debug 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCxoHa6z778aOGM7wVVakow7MruxOI-L3U" />
+            android:value="AIzaSyCxoHa6z778aOGM7wVVakow7MruxOI-L3U" />-->
 
         <activity
             android:name="com.bitwise.neojav.IniciarSesion"

@@ -218,8 +218,8 @@ public class BuscarLugar extends Activity {
 			MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
 			FrameLayout f = (FrameLayout) findViewById(R.id.mapContainer);
 			Display display = getWindowManager().getDefaultDisplay();
-			m.getView().setLayoutParams(new FrameLayout.LayoutParams((int) (display.getWidth()*0.25), LayoutParams.MATCH_PARENT,Gravity.RIGHT));
-			f.setPadding((int) (display.getWidth()*0.25), 0, 0, 0);
+			m.getView().setLayoutParams(new FrameLayout.LayoutParams(display.getWidth()-240, LayoutParams.MATCH_PARENT,Gravity.RIGHT));
+			f.setPadding(240, 0, 0, 0);
 		}
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
@@ -238,7 +238,7 @@ public class BuscarLugar extends Activity {
 				MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
 				FrameLayout f = (FrameLayout) findViewById(R.id.mapContainer);
 				Display display = getWindowManager().getDefaultDisplay();
-				m.getView().setLayoutParams(new FrameLayout.LayoutParams((int) (display.getWidth()*0.25), LayoutParams.MATCH_PARENT));
+				m.getView().setLayoutParams(new FrameLayout.LayoutParams(display.getWidth()-240, LayoutParams.MATCH_PARENT));
 				f.setPadding(0, 0, 0, 0);
 			}
 			return true;
