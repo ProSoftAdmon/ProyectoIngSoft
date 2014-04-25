@@ -51,6 +51,10 @@ public class Directorio extends Activity {
 	private String[] s;
 	private static Context th;
 
+	/* (non-Javadoc)
+	 * Metodo que instancia la configuracion 
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -98,6 +102,10 @@ public class Directorio extends Activity {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * Metodo listener al presionar el boton atras
+	 * @see android.app.Activity#onBackPressed()
+	 */
 	public void onBackPressed() {
 		Intent intent = new Intent(Directorio.this, DrawerActivity.class);
 		intent.putExtra("position", 0);
@@ -105,6 +113,9 @@ public class Directorio extends Activity {
 		finish();
 	}
 
+	/**
+	 * Metodo que carga la informacion de los contactos desde la base de datos
+	 */
 	public void setData() {
 		contactos.clear();
 
@@ -137,6 +148,10 @@ public class Directorio extends Activity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * Metodo que establece la configuracion del menu
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -144,6 +159,10 @@ public class Directorio extends Activity {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * Metodo que responde al seleccionar una opcion del menu
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -156,6 +175,9 @@ public class Directorio extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * Clase encargada de responder al evento de click del menu
+	 */
 	private class DirectorioItemClickListener implements
 			ListView.OnItemClickListener {
 		@Override
@@ -165,6 +187,10 @@ public class Directorio extends Activity {
 		}
 	}
 
+	/**
+	 * Metodo que ejecuta una accion por cada uno de los items del menu
+	 * @param position item seleccionado
+	 */
 	public void selectItem(int position) {
 		String numero = contactos.get(position).getPbx();
 		Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -172,6 +198,9 @@ public class Directorio extends Activity {
 		startActivity(callIntent);
 	}
 
+	/**
+	 * Clase encargada del manejo de lista dentro de la actividad
+	 */
 	public class MySimpleArrayAdapter extends ArrayAdapter<String> {
 		private final Context context;
 		private final String[] values;

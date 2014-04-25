@@ -65,6 +65,14 @@ public class BuscarLugar extends Activity {
 	private CharSequence mTitle2;
 	private String[] s2;
 
+	
+	
+	
+	/* (non-Javadoc)
+	 * El metodo instancia el objeto de la clase activity y lo configura
+	 * savedInstanceState: instancia con parametros para iniciar
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -147,6 +155,11 @@ public class BuscarLugar extends Activity {
 		});
 	}
 	
+	/**
+	 * markerPunto: el metodo crea un punto dentro del mapa con sus respectiva informacion,
+	 * conectandose al servidor y obteniendo la posicion del elemento buscado.
+	 * Soluciona el buscar una direccion o un lugar dentro de la ciudad 
+	 */
 	public void markerPunto(){
 		String text = search.getText().toString();
 		if (!text.isEmpty()) {
@@ -168,6 +181,9 @@ public class BuscarLugar extends Activity {
 		}
 	}
 
+	/**
+	 * Verifica si el mapa esta disponible o si es necesario instanciarlo
+	 */
 	private void setUpMapIfNeeded() {
 		// Do a null check to confirm that we have not already instantiated the
 		// map.
@@ -182,12 +198,20 @@ public class BuscarLugar extends Activity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * Metodo que se encarga de ejecutarse justo cuando la aplicacion a sido reanudada
+	 * @see android.app.Activity#onResume()
+	 */
 	@Override
 	protected void onResume() {
 		setUpMapIfNeeded();
 		super.onResume();
 	}
 
+	/* (non-Javadoc)
+	 * Metodo que se encarga de escuchar el evento del boton atras del dispositivo android
+	 * @see android.app.Activity#onBackPressed()
+	 */
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(BuscarLugar.this, DrawerActivity.class);
@@ -196,6 +220,10 @@ public class BuscarLugar extends Activity {
 		finish();
 	}
 
+	/* (non-Javadoc)
+	 * Metodo que establece las opciones basica al iniciar la activity
+	 * @see android.app.Activity#onPrepareOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
@@ -205,6 +233,10 @@ public class BuscarLugar extends Activity {
 	
 	
 
+	/* (non-Javadoc)
+	 * Metodo que se encarga del evento cuando se selecciona una opcion principal dentro del menu principal
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(mDrawerLayout.isDrawerOpen(Gravity.START)){
@@ -247,6 +279,10 @@ public class BuscarLugar extends Activity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * Metodo que establece opciones basicas del menu
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -254,14 +290,25 @@ public class BuscarLugar extends Activity {
 		return true;
 	}
 
+	/**
+	 * Metodo analizar de la variable Admin
+	 * @return la base de datos instanciada
+	 */
 	public LocalDB getAdmin() {
 		return admin;
 	}
 
+	/**
+	 * Metodo modificador de la variable Admin
+	 * @param admin, una base de datos local sqlite
+	 */
 	public void setAdmin(LocalDB admin) {
 		this.admin = admin;
 	}
 
+	/**
+	 * Clase encargada de la respuesta y espera al evento click en el menu principal
+	 */
 	private class DrawerItemClickListener implements
 			ListView.OnItemClickListener {
 		@Override
@@ -271,6 +318,9 @@ public class BuscarLugar extends Activity {
 		}
 	}
 
+	/**
+	 * Clase encargada de la respuesta y espera al evento click en el menu de categorias
+	 */
 	private class DrawerItemClickListener2 implements
 			ListView.OnItemClickListener {
 		@Override
@@ -280,6 +330,10 @@ public class BuscarLugar extends Activity {
 		}
 	}
 
+	/**
+	 * Metodo encargado de responder a la seleccion del item correspondiente en el menu
+	 * @param position la posicion en la lista del item seleccionado
+	 */
 	private void selectItem(int position) {
 		if (position == 1) {
 			mDrawerLayout.closeDrawer(mDrawerList);
@@ -300,6 +354,10 @@ public class BuscarLugar extends Activity {
 		}
 	}
 
+	/**
+	 * Metodo encargado de responder a la seleccion del item correspondiente en el menu
+	 * @param position la posicion en la lista del item seleccionado
+	 */
 	private void selectItem2(int position) {
 		MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
 		FrameLayout f = (FrameLayout) findViewById(R.id.mapContainer);
@@ -375,6 +433,10 @@ public class BuscarLugar extends Activity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * Metodo que modifica el titulo de la vista actual
+	 * @see android.app.Activity#setTitle(java.lang.CharSequence)
+	 */
 	@Override
 	public void setTitle(CharSequence title) {
 		mTitle = title;
