@@ -240,18 +240,18 @@ public class BuscarLugar extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(mDrawerLayout.isDrawerOpen(Gravity.START)){
-			MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+			/*MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
 			FrameLayout f = (FrameLayout) findViewById(R.id.mapContainer);
 			Display display = getWindowManager().getDefaultDisplay();
 			m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT,Gravity.RIGHT));
-			f.setPadding(0, 0, 0, 0);
+			f.setPadding(0, 0, 0, 0);*/
 		}
 		else{
-			MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+			/*MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
 			FrameLayout f = (FrameLayout) findViewById(R.id.mapContainer);
 			Display display = getWindowManager().getDefaultDisplay();
 			m.getView().setLayoutParams(new FrameLayout.LayoutParams(display.getWidth()-240, LayoutParams.MATCH_PARENT,Gravity.RIGHT));
-			f.setPadding(240, 0, 0, 0);
+			f.setPadding(240, 0, 0, 0);*/
 		}
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
@@ -260,18 +260,18 @@ public class BuscarLugar extends Activity {
 		case R.id.action_settings:
 			if (mDrawerLayout2.isDrawerOpen(Gravity.END)) {
 				mDrawerLayout2.closeDrawer(Gravity.END);
-				MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+				/*MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
 				FrameLayout f = (FrameLayout) findViewById(R.id.mapContainer);
 				Display display = getWindowManager().getDefaultDisplay();
 				m.getView().setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-				f.setPadding(0, 0, 0, 0);
+				f.setPadding(0, 0, 0, 0);*/
 			} else {
 				mDrawerLayout2.openDrawer(Gravity.END);
-				MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+				/*MapFragment m = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
 				FrameLayout f = (FrameLayout) findViewById(R.id.mapContainer);
 				Display display = getWindowManager().getDefaultDisplay();
 				m.getView().setLayoutParams(new FrameLayout.LayoutParams(display.getWidth()-240, LayoutParams.MATCH_PARENT));
-				f.setPadding(0, 0, 0, 0);
+				f.setPadding(0, 0, 0, 0);*/
 			}
 			return true;
 		default:

@@ -169,8 +169,8 @@ public class DrawerActivity extends Activity {
 				startActivity(in);
 			}
 			if (i == 0) {
-				rootView = inflater.inflate(R.layout.neojav_main, container,
-						false);
+				Intent in = new Intent(th, Muro.class);
+				startActivity(in);
 			}
 			if (i == 2) {
 				// rootView = inflater.inflate(R.layout.activity_directorio,
@@ -180,6 +180,11 @@ public class DrawerActivity extends Activity {
 				th.startActivity(intent);
 			}
 			if (i == 3) {
+				Intent intent = new Intent(th, Perfil.class);
+				ILocalDB db = new LocalDB(th, "local");
+				startActivity(intent);
+			}
+			if (i == 4) {
 				Intent intent = new Intent(th, IniciarSesion.class);
 				ILocalDB db = new LocalDB(th, "local");
 				db.borrarUser();

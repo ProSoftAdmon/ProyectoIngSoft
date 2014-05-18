@@ -13,6 +13,7 @@
         <item>NeoJav</item>
         <item>BuscarLugar</item>
         <item>Directorio</item>
+        <item>Perfil</item>
         <item>Cerrar Sesion</item>
     </string-array>
     <string-array name="drawer_array2">
@@ -31,5 +32,7 @@
 
     <string name="title_activity_drawer">Menu</string>
     <string name="title_activity_directorio">Directorio</string>
+    <string name="title_activity_muro">Muro</string>
+    <string name="title_activity_perfil">Perfil</string>
 
 </resources>

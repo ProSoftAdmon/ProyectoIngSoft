@@ -2,6 +2,8 @@ package Logica;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.apache.http.HttpEntity;
@@ -27,12 +29,137 @@ public class Utils implements IUtils{
 	private static Object lat;
 	private static Object lng;
 	private static Object place;
+	private List<JSONArray> js = new ArrayList<JSONArray>();
+	
+	public String[] obtenerUser(FragmentManager fM,String username){
+		try {
+			String[] js = new String[7];
+			JSONArray j = null;
+			RemoteDB ini = new RemoteDB();
+			ini.setmUrl(ini.getmUrl()+"NeoJav/User/getUser.php?usuario="+username);
+			ini.start();
+			boolean flag = false;
+			Dialogo d = new Dialogo();
+			while (ini.isAlive()) {
+				if (!flag) {
+					d.setButtons(1);
+					d.setTitle("Conectando");
+					d.setMessage("Conectando a la base de datos espere porfavor...");
+					d.setPosMes("Ok");
+					flag = true;
+					d.show(fM, "Conectando");
+				}
+			}
+			d.dismiss();
+			if (ini.getResponse().length() > 1) {
+				StringTokenizer st = new StringTokenizer(ini.getResponse(), "]");
+				while (st.hasMoreTokens()) {
+					j = new JSONArray(st.nextToken() + "]");
+					js[0] = j.getString(0);
+					js[1] = j.getString(1);
+					js[2] = j.getString(2);
+					js[3] = j.getString(3);
+					js[4] = j.getString(4);
+					js[5] = j.getString(5);
+					js[6] = j.getString(6);
+				}
+			}
+			return js;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String actualizarDatos(FragmentManager fM,String param)
+	{
+		try {
+			RemoteDB ini = new RemoteDB();
+			ini.setmUrl(ini.getmUrl()+"NeoJav/User/actualizar.php?"+param);
+			ini.start();
+			boolean flag = false;
+			Dialogo d = new Dialogo();
+			while (ini.isAlive()) {
+				if (!flag) {
+					d.setButtons(1);
+					d.setTitle("Conectando");
+					d.setMessage("Conectando a la base de datos espere porfavor...");
+					d.setPosMes("Ok");
+					flag = true;
+					d.show(fM, "Conectando");
+				}
+			}
+			d.dismiss();
+			return ini.getResponse();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public String cargarDirectorio(FragmentManager fM)
 	{
 		try {
 			RemoteDB ini = new RemoteDB();
 			ini.setmUrl(ini.getmUrl()+"NeoJav/Contacto/consultarDirectorio.php");
+			ini.start();
+			boolean flag = false;
+			Dialogo d = new Dialogo();
+			while (ini.isAlive()) {
+				if (!flag) {
+					d.setButtons(1);
+					d.setTitle("Conectando");
+					d.setMessage("Conectando a la base de datos espere porfavor...");
+					d.setPosMes("Ok");
+					flag = true;
+					d.show(fM, "Conectando");
+				}
+			}
+			d.dismiss();
+			return ini.getResponse();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<JSONArray> cargarMuro(FragmentManager fM){
+		try {
+			JSONArray j = null;
+			RemoteDB ini = new RemoteDB();
+			ini.setmUrl(ini.getmUrl()+"NeoJav/Muro/consultarMuro.php");
+			ini.start();
+			boolean flag = false;
+			Dialogo d = new Dialogo();
+			while (ini.isAlive()) {
+				if (!flag) {
+					d.setButtons(1);
+					d.setTitle("Conectando");
+					d.setMessage("Conectando a la base de datos espere porfavor...");
+					d.setPosMes("Ok");
+					flag = true;
+					d.show(fM, "Conectando");
+				}
+			}
+			d.dismiss();
+			if (ini.getResponse().length() > 1) {
+				StringTokenizer st = new StringTokenizer(ini.getResponse(), "]");
+				while (st.hasMoreTokens()) {
+					j = new JSONArray(st.nextToken() + "]");
+					js.add(j);
+				}
+			}
+			return js;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String publicar(FragmentManager fM,String param){
+		try {
+			RemoteDB ini = new RemoteDB();
+			ini.setmUrl(ini.getmUrl()+"NeoJav/Muro/publicar.php?mensaje="+param);
 			ini.start();
 			boolean flag = false;
 			Dialogo d = new Dialogo();
@@ -191,8 +318,5 @@ public class Utils implements IUtils{
 
 	public static void setPlace(Object place) {
 		Utils.place = place;
-	}
-	
-	
-	
+	}	
 }

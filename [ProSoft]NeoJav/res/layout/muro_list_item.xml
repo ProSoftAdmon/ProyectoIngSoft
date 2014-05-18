@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:minHeight="100dp"
+    android:orientation="horizontal" >
+    
+    <Space
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+    
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:id="@+id/imagenPerfil"
+        android:src="@drawable/perfil" />
+    
+    <Space
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <TextView
+            android:id="@+id/NombreUserPub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="Nombre del Usuario"
+            android:textSize="17sp"
+            android:textColor="@color/blue"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:id="@+id/HoraPub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="hora y fecha"
+            android:textSize="9sp"
+            android:textStyle="italic"
+            android:textColor="@android:color/darker_gray" />
+        
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <TextView
+            android:id="@+id/MensajePub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="mensaje"
+            android:textStyle="italic" />      
+         
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+        
+        <ImageView
+            android:layout_width="0dp"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:id="@+id/imagenPub"
+            android:layout_gravity="center"
+            android:layout_height="0dp" />
+
+        <TextView
+            android:id="@+id/EtiquetasPub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="Etiquetas"
+            android:textColor="@color/darkblue" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -3,9 +3,11 @@ package com.bitwise.neojav;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import DataBase.RemoteDB;
 import DataBase.LocalDB;
+import DataBase.RemoteDB;
 import Logica.Dialogo;
+import Logica.IUtils;
+import Logica.Utils;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -22,13 +24,17 @@ public class IniciarSesion extends Activity {
     private EditText username;
     private EditText password;
     private LocalDB sqlite;
-
+    private IUtils ut = new Utils();    
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_activity);
 		sqlite = new LocalDB(IniciarSesion.this, "local");
+		sqlite.createTable();
 		if(sqlite.consultarUser().equals("si")){
+			String[] s = ut.obtenerUser(getFragmentManager(), sqlite.nombreUsuario());
+			sqlite.insertarPerfil(s[0], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[1]), s[4], s[5],sqlite.nombreUsuario());
 			Intent i = new Intent(IniciarSesion.this,DrawerActivity.class);
 			startActivity(i);
 		}
@@ -69,6 +75,8 @@ public class IniciarSesion extends Activity {
 				System.out.println(s.equals("si"));
 				if(s.equals("si")){
 					sqlite.guardarUser(username.getText().toString(), password.getText().toString());
+					String[] s1 = ut.obtenerUser(getFragmentManager(), sqlite.nombreUsuario());
+					sqlite.insertarPerfil(s1[1], s1[3], Integer.parseInt(s1[4]), Integer.parseInt(s1[2]), s1[5], s1[6],sqlite.nombreUsuario());
 					Intent i = new Intent(IniciarSesion.this,DrawerActivity.class);
 					startActivity(i);
 				}

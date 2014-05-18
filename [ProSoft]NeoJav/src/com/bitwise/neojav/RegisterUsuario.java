@@ -1,5 +1,6 @@
 package com.bitwise.neojav;
 
+import DataBase.LocalDB;
 import DataBase.RemoteDB;
 import Logica.Dialogo;
 import android.app.Activity;
@@ -19,6 +20,10 @@ public class RegisterUsuario extends Activity {
 
 	private EditText user;
 	private EditText pass;
+	private EditText name;
+	private EditText lastname;
+	
+	private LocalDB ldb = new LocalDB(this,"local");
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,17 +32,19 @@ public class RegisterUsuario extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		user = (EditText) findViewById(R.id.newusername);
 		pass = (EditText) findViewById(R.id.newpassword);
+		name = (EditText) findViewById(R.id.name);
+		lastname = (EditText) findViewById(R.id.lastname);
 		Button re = (Button) findViewById(R.id.registrar);
 		re.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				if(!user.getText().toString().isEmpty() && !pass.getText().toString().isEmpty()){
+				Dialogo d = new Dialogo();
+				if(!user.getText().toString().isEmpty() && !pass.getText().toString().isEmpty() && !name.getText().toString().isEmpty() && !lastname.getText().toString().isEmpty()){
 					RemoteDB ini = new RemoteDB();
-					ini.setmUrl("http://omargonzalez.dx.am/NeoJav/Login/adduser.php?usuario="+user.getText()+"&password="+pass.getText());
+					ini.setmUrl("http://omargonzalez.dx.am/NeoJav/Login/adduser.php?usuario="+user.getText()+"&password="+pass.getText()+"&nombre="+name.getText()+"&apellido="+lastname.getText());
 					ini.start();
 					boolean flag = false;
-					Dialogo d = new Dialogo();
 					while(ini.isAlive()){
 						if(!flag){
 							d.setButtons(1);
@@ -51,8 +58,10 @@ public class RegisterUsuario extends Activity {
 					d.dismiss();
 					if(ini.getResponse().length()>1){
 						String s = ini.getResponse();
+						System.out.println(s);
 						if(!s.trim().equals("YaExiste")){
 							if(!s.equals("Error")){
+								ldb.guardarUserName(user.getText().toString(), pass.getText().toString(),name.getText().toString(),lastname.getText().toString());
 								Intent i = new Intent(RegisterUsuario.this,DrawerActivity.class);
 								startActivity(i);
 							}
@@ -75,10 +84,20 @@ public class RegisterUsuario extends Activity {
 							d.setTitle("Error");
 							d.setMessage("Usuario ya existente");
 							d.setPosMes("Ok");
-							d.show(getFragmentManager(), "Error UsuarioExistente");
+							d.show(getFragmentManager(), "Error Usuario Existente");
 						}
 					}
-				}				
+				}
+				else{
+					Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+				    vibrator.vibrate(200);
+					d = new Dialogo();
+					d.setButtons(1);
+					d.setTitle("Error");
+					d.setMessage("Problema");
+					d.setPosMes("Ok");
+					d.show(getFragmentManager(), "Base de Datos Ocupada");
+				}
 			}
 		});
 	}

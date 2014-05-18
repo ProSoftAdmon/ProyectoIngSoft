@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white" >
+    
+    <Space 
+        android:layout_height="15dp"
+        android:layout_width="fill_parent"/>
+    
+    <TextView 
+        android:id="@+id/textEst"
+        android:text="Estado:"
+        android:textColor="@color/blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    
+    <EditText 
+        android:id="@+id/cambiarEst"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"/>
+    
+    <Space 
+        android:layout_height="15dp"
+        android:layout_width="fill_parent"/>
+    
+    <View 
+        android:layout_height="0.5dp"
+        android:layout_width="fill_parent"
+        android:background="@color/blue"/>
+    
+    <Button 
+        android:id="@+id/aceptarDialog"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Aceptar"
+        android:textColor="#333"
+        android:textStyle="bold"
+        style="?android:attr/borderlessButtonStyle"/>
+
+</LinearLayout>

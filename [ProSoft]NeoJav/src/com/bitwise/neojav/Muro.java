@@ -1,11 +1,13 @@
 package com.bitwise.neojav;
 
 import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.util.Date;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import DataBase.LocalDB;
 import Logica.IUtils;
 import Logica.Utils;
 import android.app.Activity;
@@ -14,29 +16,35 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class Directorio extends Activity {
+public class Muro extends Activity {
 
 	private IUtils ut = new Utils();
 	private ListView mList;
 	private ArrayList<Contacto> contactos = new ArrayList<Contacto>();
-	private String[] contac;
+	private ArrayList<Publicacion> publicaciones = new ArrayList<Publicacion>();
+	private String[] contac = new String[1];
 
+    private LocalDB sqlite;
+	
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -46,24 +54,21 @@ public class Directorio extends Activity {
 	private String[] s;
 	private static Context th;
 
-	/* (non-Javadoc)
-	 * Metodo que instancia la configuracion 
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_directorio);
+		setContentView(R.layout.neojav_main);
 		setData();
-		mList = (ListView) findViewById(R.id.listcontac);
-		MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, contac,
-				contactos);
-		mList.setAdapter(adapter);
-		mList.setOnItemClickListener(new DirectorioItemClickListener());
-		th = Directorio.this;
+		th = Muro.this;
+		ut.cargarMuro(getFragmentManager());
+		sqlite = new LocalDB(Muro.this, "local");
+		mList = (ListView) findViewById(R.id.publicaciones);
+		MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this,contac,publicaciones);
+		mList.setAdapter(adapter); 
+		mList.setOnItemClickListener(new MuroItemClickListener());
 		mTitle = mDrawerTitle = getTitle();
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout3);
-		mDrawerList = (ListView) findViewById(R.id.left_drawer3);
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout4);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer4);
 		s = getResources().getStringArray(R.array.drawer_array);
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 				GravityCompat.START);
@@ -91,89 +96,56 @@ public class Directorio extends Activity {
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
+		ImageButton b = (ImageButton) findViewById(R.id.publicar);
+		b.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				EditText t = (EditText) findViewById(R.id.textoMuro);
+				if(!t.getText().toString().isEmpty()){
+					Date horaActual=new Date();
+					String fecha = (horaActual.getYear()+1900)+"-"+(horaActual.getMonth()+1)+"-"+horaActual.getDate();
+					String hora = horaActual.getHours()+":"+horaActual.getMinutes()+":"+horaActual.getSeconds();
+					String param = new String(t.getText().toString()+"&categoria=Lugar%20De%20Ocio&autor="+sqlite.nombreUsuario()+"&fecha="+fecha+"&hora="+hora);
+					ut.publicar(getFragmentManager(),param);
+					setData();
+					((BaseAdapter) mList.getAdapter()).notifyDataSetChanged();
+					t.setText("");
+				}
+			}
+		});
 		if (savedInstanceState == null) {
-			selectItemDrawer(2);
+			selectItemDrawer(0);
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * Metodo listener al presionar el boton atras
-	 * @see android.app.Activity#onBackPressed()
-	 */
-	public void onBackPressed() {
-		Intent intent = new Intent(Directorio.this, DrawerActivity.class);
-		intent.putExtra("position", 0);
-		startActivity(intent);
-		finish();
-	}
-
 	/**
-	 * Metodo que carga la informacion de los contactos desde la base de datos
+	 * Metodo que carga la informacion del muro
 	 */
 	public void setData() {
 		contactos.clear();
-
+		publicaciones.clear();
 		try {
-			String ini = ut.cargarDirectorio(this.getFragmentManager());
-			JSONArray j = null;
-			contac = new String[ini.length()];
-			int i = 0;
-			if (ini.length() > 1) {
-				StringTokenizer st = new StringTokenizer(ini, "]");
-				while (st.hasMoreTokens()) {
-					Contacto c = new Contacto();
-					j = new JSONArray(st.nextToken() + "]");
-					c.setIndice(j.getString(0));
-					c.setDependencia(j.getString(1));
-					c.setCargo(j.getString(2));
-					c.setNombre(j.getString(3));
-					c.setApellido(j.getString(4));
-					c.setExtension(Integer.parseInt(j.getString(5)));
-					contactos.add(c);
-					contac[i] = "" + j.getString(0) + " " + j.getString(1)
-							+ "|" + j.getString(3) + " " + j.getString(4) + " "
-							+ j.getString(2) + "|" + j.getString(5);
-					i++;
-				}
+			List<JSONArray> publis = ut.cargarMuro(this.getFragmentManager());
+			for(int i=0;i<publis.size();i++){
+				Publicacion p = new Publicacion();
+				p.setAutor(publis.get(i).getString(5));
+				p.setFecha(publis.get(i).getString(2));
+				p.setHora(publis.get(i).getString(3));
+				//p.setImagen(publis.get(i).getString(4));
+				p.setMensaje(publis.get(i).getString(1));
+				p.setCategoria(publis.get(i).getString(6));
+				publicaciones.add(p);
 			}
-
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
-
-	/* (non-Javadoc)
-	 * Metodo que establece la configuracion del menu
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.directorio, menu);
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * Metodo que responde al seleccionar una opcion del menu
-	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
+	
 	/**
 	 * Clase encargada de responder al evento de click del menu
 	 */
-	private class DirectorioItemClickListener implements
+	private class MuroItemClickListener implements
 			ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -187,10 +159,10 @@ public class Directorio extends Activity {
 	 * @param position item seleccionado
 	 */
 	public void selectItem(int position) {
-		String numero = contactos.get(position).getPbx();
+		/*String numero = contactos.get(position).getPbx();
 		Intent callIntent = new Intent(Intent.ACTION_CALL);
 		callIntent.setData(Uri.parse("tel:" + numero));
-		startActivity(callIntent);
+		startActivity(callIntent);*/
 	}
 
 	/**
@@ -199,7 +171,7 @@ public class Directorio extends Activity {
 	public class MySimpleArrayAdapter extends ArrayAdapter<String> {
 		private final Context context;
 		private final String[] values;
-		private ArrayList<Contacto> contactos;
+		private ArrayList<Publicacion> contactos;
 
 		@Override
 		public int getCount() {
@@ -207,8 +179,8 @@ public class Directorio extends Activity {
 		}
 
 		public MySimpleArrayAdapter(Context context, String[] values,
-				ArrayList<Contacto> contactos) {
-			super(context, R.layout.directorio_list_item, values);
+				ArrayList<Publicacion> contactos) {
+			super(context, R.layout.muro_list_item, values);
 			this.context = context;
 			this.values = values;
 			this.contactos = contactos;
@@ -218,29 +190,52 @@ public class Directorio extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View rowView = null;
 			if (position < contactos.size()) {
-				LayoutInflater inflater = (LayoutInflater) context
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				rowView = inflater.inflate(R.layout.directorio_list_item,
-						parent, false);
-				TextView indice = (TextView) rowView.findViewById(R.id.id);
-				TextView nombre = (TextView) rowView.findViewById(R.id.nombre);
-				TextView extension = (TextView) rowView.findViewById(R.id.ext);
-				indice.setText(contactos.get(position).getIndice());
-				nombre.setText(contactos.get(position).getNombre() + " "
-						+ contactos.get(position).getApellido() + " "
-						+ contactos.get(position).getCargo());
-				extension
-						.setText("Extension: "
-								+ String.valueOf(contactos.get(position)
-										.getExtension()));
+				LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				rowView = inflater.inflate(R.layout.muro_list_item, parent, false);
+				ImageView perfil = (ImageView) rowView.findViewById(R.id.imagenPerfil);
+				TextView userPub = (TextView) rowView.findViewById(R.id.NombreUserPub);
+				TextView horaPub = (TextView) rowView.findViewById(R.id.HoraPub);
+				TextView mensaje = (TextView) rowView.findViewById(R.id.MensajePub);
+				//ImageView imagenOp = (ImageView) rowView.findViewById(R.id.imagenPub);
+				TextView etiquetas = (TextView) rowView.findViewById(R.id.EtiquetasPub);
+				//perfil.setImageBitmap(contactos.get(position).getImagen());
+				userPub.setText(contactos.get(position).getAutor());
+				horaPub.setText(contactos.get(position).getFecha() + " " + contactos.get(position).getHora());
+				mensaje.setText(contactos.get(position).getMensaje());
+				etiquetas.setText(contactos.get(position).getCategoria());
 			}
-
 			return rowView;
 		}
 
 		public String[] getValues() {
 			return values;
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * Metodo listener al presionar el boton atras
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	public void onBackPressed() {
+		finish();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.muro, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private class DrawerItemClickListener implements
@@ -253,7 +248,7 @@ public class Directorio extends Activity {
 	}
 
 	private void selectItemDrawer(int position) {
-		if (position == 2) {
+		if (position == 0) {
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else {
 			Fragment fragment = new NuevaViewFragment();
@@ -263,7 +258,7 @@ public class Directorio extends Activity {
 
 			FragmentManager fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
-					.replace(R.id.content_frame3, fragment).commit();
+					.replace(R.id.content_frame4, fragment).commit();
 			mDrawerList.setItemChecked(position, true);
 			setTitle(s[position]);
 			mDrawerLayout.closeDrawer(mDrawerList);
@@ -276,11 +271,6 @@ public class Directorio extends Activity {
 		getActionBar().setTitle(mTitle);
 	}
 	
-	/**
-	 * When using the ActionBarDrawerToggle, you must call it during
-	 * onPostCreate() and onConfigurationChanged()...
-	 */
-
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -292,7 +282,7 @@ public class Directorio extends Activity {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
-
+	
 	/**
 	 * Fragment that appears in the "content_frame", shows a planet
 	 */

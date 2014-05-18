@@ -45,6 +45,46 @@
 	            android:password="true"
 	            android:singleLine="true" />
 	        
+	        <Space 
+	            android:layout_width="match_parent"
+	            android:layout_height="5dp"/>
+	        
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center"
+	            android:text="Nombre:" />
+	        
+	        <Space 
+	            android:layout_width="match_parent"
+	            android:layout_height="5dp"/>
+	        
+	        <EditText
+	            android:id="@+id/name"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:singleLine="true" />
+	        
+	        <Space 
+	            android:layout_width="match_parent"
+	            android:layout_height="5dp"/>
+	        
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center"
+	            android:text="Apellido:" />
+	        
+	        <Space 
+	            android:layout_width="match_parent"
+	            android:layout_height="5dp"/>
+	        
+	        <EditText
+	            android:id="@+id/lastname"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:singleLine="true" />
+	        
 	        <Button
 	            android:id="@+id/registrar"
 	            android:layout_width="wrap_content"
