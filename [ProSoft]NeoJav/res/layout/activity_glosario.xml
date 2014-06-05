@@ -1,0 +1,70 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The main content view -->
+
+    <FrameLayout
+        android:id="@+id/content_frame4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="-Acreditación\n\n
+
+*Proceso por el que una agencia (Agencia Nacional de Evaluación de la Calidad y Acreditación (ANECA), Órganos de evaluación de las Comunidades Autónomas) garantiza que las enseñanzas conducentes a la obtención de títulos universitarios de carácter oficial (Grado, Máster Universitario y Doctorado), cumplen con los criterios y estándares de calidad establecidos en el Espacio Europeo de Educación Superior.\n\n
+
+-Acta\n\n
+
+*Documento en el que constan oficialmente las calificaciones finales de los/as estudiantes en una convocatoria y asignatura concreta. Se firma por el/la profesor/a de la asignatura y por el/la secretario/a del centro y se archiva en la secretaría.\n\n
+
+-Anulación de Matrícula\n\n
+
+*Estudiantes matriculados en 1er curso: si han sido admitidos a cursar otros estudios del mismo nivel en esta u otra universidad española, deberá solicitar la anulación antes del 15 de diciembre en el centro al que estén adscritas la impartición de las enseñanzas en las que estaban matriculados.\n\n
+
+-Área de Conocimiento\n\n
+
+*Campos del saber caracterizados por la homogeneidad de su objeto de conocimiento, por una común tradición histórica y por la existencia de comunidades de investigadores.\n\n
+
+Los departamentos universitarios se constituyen y se organizan por áreas de conocimiento.\n\n
+
+-Asociación Universitaria\n\n
+
+*Cabría distinguir las asociaciones que tienen como fin la representación de los/las estudiantes y que por lo tanto se presentan a las elecciones de alumnos/as y asociaciones con otros fines (académicos, profesionales, internacionales)\n\n
+
+-Aulas\n\n
+
+*El espacio físico donde se imparten las asignaturas.\n\n
+
+-Autonomia Universitaria\n\n
+
+*La autonomía universitaria está considerada como un derecho fundamental y libertad pública con máxima protección en el texto constitucional.\n\n
+
+El artículo 2 de la Ley Orgánica de Universidades establece los fundamentos de la autonomía universitaria cuyo principio básico es la libertad académica que se manifiesta la libertad de cátedra, de investigación y de estudio. La autonomía universitaria exige y hace posible que docentes, investigadores y estudiantes cumplan con sus respectivas responsabilidades , en orden a la satisfacción de las necesidades educativas, científicas y profesionales de la sociedad, así como que las universidades rindan cuentas del uso de sus medios y recursos a la sociedad.\n\n
+
+-Beca\n\n
+
+*Es la ayuda que un/una estudiante puede recibir para iniciar o continuar sus estudios universitarios." />
+        </ScrollView>
+    </FrameLayout>
+
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer4"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#111"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

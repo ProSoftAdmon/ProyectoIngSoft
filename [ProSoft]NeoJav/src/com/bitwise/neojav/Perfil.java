@@ -1,6 +1,8 @@
 package com.bitwise.neojav;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -16,6 +18,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreProtocolPNames;
 
 import DataBase.LocalDB;
+import Logica.HttpFileUploader;
 import Logica.IUtils;
 import Logica.Utils;
 import android.app.Activity;
@@ -125,6 +128,7 @@ public class Perfil extends Activity {
 				b.setImageBitmap(BitmapFactory.decodeStream(input));
 	            b.getLayoutParams().height = 200;
 	            b.getLayoutParams().width = 200;
+	            
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -335,7 +339,7 @@ public class Perfil extends Activity {
             cursor.moveToFirst();
  
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
+            final String picturePath = cursor.getString(columnIndex);
             cursor.close();
             Bitmap bm = BitmapFactory.decodeFile(picturePath);
             if(bm.getWidth() > 2048 && bm.getHeight() > 2048){
@@ -353,55 +357,32 @@ public class Perfil extends Activity {
                 cropIntent.putExtra("return-data", true);
                 startActivityForResult(cropIntent, PIC_CROP);*/
             }
-            imageView.setImageBitmap(bm);
-            imageView.getLayoutParams().height = 200;
-            imageView.getLayoutParams().width = 200;
-            File file = new File(picturePath);
-            if (file.exists()) {
-                UploaderFoto nuevaTarea = new UploaderFoto();
-                nuevaTarea.execute(picturePath);
+            else{
+	            imageView.setImageBitmap(bm);
+	            imageView.getLayoutParams().height = 200;
+	            imageView.getLayoutParams().width = 200;
+	            File file = new File(picturePath);
+	            if (file.exists()) {
+		            final HttpFileUploader uploader = new HttpFileUploader("http://omargonzalez.dx.am/NeoJav/User/upload.php", file.getAbsolutePath());
+		            Thread t = new Thread(){
+						public void run()
+					    {
+					        try 
+					        {
+								uploader.doStart(new FileInputStream(picturePath));
+					        }
+					        catch (IOException e) 
+					        {
+					            e.printStackTrace();
+					        }
+					    }
+					};
+					t.start();
+	            }
+	            ldb.actualizar("'http://omargonzalez.dx.am/NeoJav/User/Images/"+file.getName()+"'", "imagen", ldb.nombreUsuario());
+	            String param = new String("username="+ldb.nombreUsuario()+"&pic="+ldb.imagen()+"&no_post="+ldb.no_post()+"&horas="+ldb.horas()+"&estado="+ldb.estado()+"&nombre="+ldb.nombre()+"&apellido="+ldb.apellido());
+	            ut.actualizarDatos(getFragmentManager(), param);    
             }
-            ldb.actualizar("'http://omargonzalez.dx.am/NeoJav/User/Images/"+file.getName()+"'", "imagen", ldb.nombreUsuario());
-            String param = new String("username="+ldb.nombreUsuario()+"&pic="+ldb.imagen()+"&no_post="+ldb.no_post()+"&horas="+ldb.horas()+"&estado="+ldb.estado()+"&nombre="+ldb.nombre()+"&apellido="+ldb.apellido());
-            ut.actualizarDatos(getFragmentManager(), param);         
         }     
     }
-	
-	class UploaderFoto extends AsyncTask<String, Void, Void>{
-		 
-	    ProgressDialog pDialog;
-	    String miFoto = "";
-
-	    protected Void doInBackground(String... params) {
-	        miFoto = params[0];
-	        try {
-	            HttpClient httpclient = new DefaultHttpClient();
-	            httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-	            HttpPost httppost = new HttpPost("http://omargonzalez.dx.am/NeoJav/User/upload.php");
-	            File file = new File(miFoto);
-	            MultipartEntity mpEntity = new MultipartEntity();
-	            ContentBody foto = new FileBody(file, "image/*");
-	            mpEntity.addPart("fotoUp", foto);
-	            httppost.setEntity(mpEntity);
-	            httpclient.execute(httppost);
-	            httpclient.getConnectionManager().shutdown();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	        return null;
-	    }
-
-	    protected void onPreExecute() {
-	        super.onPreExecute();
-	        pDialog = new ProgressDialog(Perfil.this);
-	        pDialog.setMessage("Subiendo la imagen, espere." );
-	        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-	        pDialog.setCancelable(true);
-	        pDialog.show();
-	    }
-	    protected void onPostExecute(Void result) {
-	        super.onPostExecute(result);
-	        pDialog.dismiss();
-	    }
-	}
 }

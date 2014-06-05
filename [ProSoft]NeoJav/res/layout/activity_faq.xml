@@ -1,0 +1,54 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The main content view -->
+
+    <FrameLayout
+        android:id="@+id/content_frame4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="-¿Las personas que presentaron el ICFES después del año 2000 requieren un puntaje mínimo para inscribirse en la Universidad?\n\n
+
+*Por el momento la Universidad Javeriana no ha establecido ningún puntaje mínimo en el examen de Estado para aquellas personas que hayan presentado el examen del ICFES después del año 2000.\n\n
+
+-¿Los extranjeros o colombianos que realizaron sus estudios de bachillerato en el exterior necesitan presentar el ICFES para ingresar a la Universidad?\n\n
+
+*De acuerdo con el decreto No. 860 de 2003, Las personas nacionales o extranjeros que hayan culminado sus estudios de educación secundaria en otros países y aspiren a ingresar a un programa de pregrado en Colombia, deberán acreditar frente a la Universidad el examen de Estado presentado en el país donde culminaron sus estudios de educación secundaria, equivalente al examen de estado colombiano, de lo contrario deberán presentar el examen del ICFES.\n\n
+
+-¿Qué requisitos se exigen para los aspirantes que finalizaron sus estudios de secundaria en el exterior?\n\n
+
+*Si por motivo de fuerza mayor el aspirante no puede presentar la entrevista o las pruebas específicas, deberá comunicarse con el Director de Carrera respectivo quien estudiará el caso y decidirá en consecuencia.\n\n
+
+-¿Cuáles son los criterios de selección utilizados por la Universidad?\n\n
+
+*Actualmente solo es necesario el requisito de inglés solo para la carrera de Relaciones Internacionales.\n\n
+
+-¿Es posible aplazar las pruebas y la entrevista en el proceso de admisión?\n\n
+
+*La Universidad permite la inscripción a carreras diferentes. Los interesados deben presentar por separado las solicitudes de ingreso, pero solo puede iniciar uno de los programas hasta que no cumpla los requisitos exigidos para múltiple programa.\n\n" />
+        </ScrollView>
+    </FrameLayout>
+
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer4"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#111"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

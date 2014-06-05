@@ -1,7 +1,5 @@
 package com.bitwise.neojav;
 
-import DataBase.ILocalDB;
-import DataBase.LocalDB;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -14,6 +12,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class DrawerActivity extends Activity {
-
+public class FAQ extends Activity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -32,17 +30,19 @@ public class DrawerActivity extends Activity {
 	private String[] s;
 	private static Context th;
 
+	/*
+	 * (non-Javadoc) Metodo que instancia la configuracion
+	 * 
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getIntent().getBooleanExtra("EXIT", false)) {
-			finish();
-		}
-		th = DrawerActivity.this;
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_faq);
+		th = FAQ.this;
 		mTitle = mDrawerTitle = getTitle();
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout4);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer4);
 		s = getResources().getStringArray(R.array.drawer_array);
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 				GravityCompat.START);
@@ -72,36 +72,44 @@ public class DrawerActivity extends Activity {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		if (savedInstanceState == null) {
-			Bundle bundle = getIntent().getExtras();
-			if (bundle != null) {
-				selectItem(bundle.getInt("position"));
-			} else
-				selectItem(0);
+			selectItemDrawer(5);
 		}
 	}
 
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		@SuppressWarnings("unused")
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		return super.onPrepareOptionsMenu(menu);
+	public void onBackPressed() {
+		Intent intent = new Intent(FAQ.this, DrawerActivity.class);
+		intent.putExtra("position", 0);
+		startActivity(intent);
+		finish();
 	}
 
+	/*
+	 * (non-Javadoc) Metodo que establece la configuracion del menu
+	 * 
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.directorio, menu);
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc) Metodo que responde al seleccionar una opcion del menu
+	 * 
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-		switch (item.getItemId()) {
-		default:
-			return super.onOptionsItemSelected(item);
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.drawer, menu);
-		return true;
+		return super.onOptionsItemSelected(item);
 	}
 
 	private class DrawerItemClickListener implements
@@ -109,22 +117,26 @@ public class DrawerActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			selectItem(position);
+			selectItemDrawer(position);
 		}
 	}
 
-	private void selectItem(int position) {
-		Fragment fragment = new PlanetFragment();
-		Bundle args = new Bundle();
-		args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-		fragment.setArguments(args);
+	private void selectItemDrawer(int position) {
+		if (position == 5) {
+			mDrawerLayout.closeDrawer(mDrawerList);
+		} else {
+			Fragment fragment = new NuevaViewFragment();
+			Bundle args = new Bundle();
+			args.putInt(NuevaViewFragment.ARG_PLANET_NUMBER, position);
+			fragment.setArguments(args);
 
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
-		mDrawerList.setItemChecked(position, true);
-		setTitle(s[position]);
-		mDrawerLayout.closeDrawer(mDrawerList);
+			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction()
+					.replace(R.id.content_frame4, fragment).commit();
+			mDrawerList.setItemChecked(position, true);
+			setTitle(s[position]);
+			mDrawerLayout.closeDrawer(mDrawerList);
+		}
 	}
 
 	@Override
@@ -153,10 +165,10 @@ public class DrawerActivity extends Activity {
 	/**
 	 * Fragment that appears in the "content_frame", shows a planet
 	 */
-	public static class PlanetFragment extends Fragment {
+	public static class NuevaViewFragment extends Fragment {
 		public static final String ARG_PLANET_NUMBER = "planet_number";
 
-		public PlanetFragment() {
+		public NuevaViewFragment() {
 		}
 
 		@Override
@@ -164,59 +176,12 @@ public class DrawerActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = null;
 			int i = getArguments().getInt(ARG_PLANET_NUMBER);
-			if (i == 1) {
-				Intent in = new Intent(th, BuscarLugar.class);
-				startActivity(in);
-			}
-			if (i == 0) {
-				Intent in = new Intent(th, Muro.class);
-				startActivity(in);
-			}
-			if (i == 2) {
-				Intent intent = new Intent(th, Directorio.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				th.startActivity(intent);
-			}
-			if (i == 3) {
-				Intent intent = new Intent(th, Perfil.class);
-				ILocalDB db = new LocalDB(th, "local");
-				startActivity(intent);
-			}
-			if (i == 4) {
-				Intent intent = new Intent(th, Servicios.class);
-				th.startActivity(intent);
-			}
-			if (i == 5) {
-				Intent intent = new Intent(th, FAQ.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				th.startActivity(intent);
-			}
-			if (i == 6) {
-				Intent intent = new Intent(th, Glosario.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				th.startActivity(intent);
-			}
-			if (i == 7) {
-				Intent intent = new Intent(th, IniciarSesion.class);
-				ILocalDB db = new LocalDB(th, "local");
-				db.borrarUser();
-				startActivity(intent);
-			}
+			Intent in = new Intent(th, DrawerActivity.class);
+			in.putExtra("position", i);
+			startActivity(in);
 			String title = getResources().getStringArray(R.array.drawer_array)[i];
 			getActivity().setTitle(title);
 			return rootView;
 		}
 	}
-
-	@Override
-	public void onBackPressed() {
-		quit();
-	}
-
-	public void quit() {
-		int pid = android.os.Process.myPid();
-		android.os.Process.killProcess(pid);
-		System.exit(0);
-	}
-
 }

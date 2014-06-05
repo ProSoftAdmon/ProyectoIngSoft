@@ -14,6 +14,9 @@
         <item>BuscarLugar</item>
         <item>Directorio</item>
         <item>Perfil</item>
+        <item>Servicios</item>
+        <item>F.A.Q</item>
+        <item>Glosario</item>
         <item>Cerrar Sesion</item>
     </string-array>
     <string-array name="drawer_array2">
@@ -34,5 +37,14 @@
     <string name="title_activity_directorio">Directorio</string>
     <string name="title_activity_muro">Muro</string>
     <string name="title_activity_perfil">Perfil</string>
+    <string name="title_activity_servicios">Servicios</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="title_activity_faq">FAQ</string>
+    <string name="title_activity_glosario">Glosario</string>
 
 </resources>

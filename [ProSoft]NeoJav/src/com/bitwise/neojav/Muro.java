@@ -111,6 +111,8 @@ public class Muro extends Activity {
 					setData();
 					((BaseAdapter) mList.getAdapter()).notifyDataSetChanged();
 					t.setText("");
+					Intent in = new Intent(th, Muro.class);
+					startActivity(in);
 				}
 			}
 		});
@@ -217,6 +219,7 @@ public class Muro extends Activity {
 	 * @see android.app.Activity#onBackPressed()
 	 */
 	public void onBackPressed() {
+		Intent intent = new Intent(Intent.ACTION_MAIN);
 		finish();
 	}
 

@@ -34,7 +34,7 @@ public class IniciarSesion extends Activity {
 		sqlite.createTable();
 		if(sqlite.consultarUser().equals("si")){
 			String[] s = ut.obtenerUser(getFragmentManager(), sqlite.nombreUsuario());
-			sqlite.insertarPerfil(s[0], s[2], Integer.parseInt(s[3]), Integer.parseInt(s[1]), s[4], s[5],sqlite.nombreUsuario());
+			sqlite.insertarPerfil(s[1], s[3], Integer.parseInt(s[4]), Integer.parseInt(s[2]), s[5], s[6],sqlite.nombreUsuario());
 			Intent i = new Intent(IniciarSesion.this,DrawerActivity.class);
 			startActivity(i);
 		}
