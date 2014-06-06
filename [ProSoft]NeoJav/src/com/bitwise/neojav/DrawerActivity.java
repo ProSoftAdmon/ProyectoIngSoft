@@ -165,7 +165,7 @@ public class DrawerActivity extends Activity {
 			View rootView = null;
 			int i = getArguments().getInt(ARG_PLANET_NUMBER);
 			if (i == 1) {
-				Intent in = new Intent(th, BuscarLugar.class);
+				Intent in = new Intent(th, MapaU.class);
 				startActivity(in);
 			}
 			if (i == 0) {

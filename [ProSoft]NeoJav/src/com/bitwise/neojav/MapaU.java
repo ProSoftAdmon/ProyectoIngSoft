@@ -39,7 +39,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class BuscarLugar extends Activity {
+public class MapaU extends Activity {
 	
 	private IUtils ut = new Utils();
 	
@@ -76,7 +76,7 @@ public class BuscarLugar extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		th = BuscarLugar.this;
+		th = MapaU.this;
 		setContentView(R.layout.buscar_lugar);
 		setUpMapIfNeeded();
 		mMap.setMyLocationEnabled(true);
@@ -214,7 +214,7 @@ public class BuscarLugar extends Activity {
 	 */
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(BuscarLugar.this, DrawerActivity.class);
+		Intent intent = new Intent(MapaU.this, DrawerActivity.class);
 		intent.putExtra("position", 0);
 		startActivity(intent);
 		finish();
