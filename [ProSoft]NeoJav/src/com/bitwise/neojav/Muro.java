@@ -107,7 +107,11 @@ public class Muro extends Activity {
 					String fecha = (horaActual.getYear()+1900)+"-"+(horaActual.getMonth()+1)+"-"+horaActual.getDate();
 					String hora = horaActual.getHours()+":"+horaActual.getMinutes()+":"+horaActual.getSeconds();
 					String param = new String(t.getText().toString()+"&categoria=Lugar%20De%20Ocio&autor="+sqlite.nombreUsuario()+"&fecha="+fecha+"&hora="+hora);
+					String no_post = new String(String.valueOf(sqlite.no_post()+1));
+                    sqlite.actualizar("'"+no_post+"'", "no_post", sqlite.nombreUsuario());
+					String act = new String("username="+sqlite.nombreUsuario()+"&imagen="+sqlite.imagen()+"&no_post="+no_post+"&horas="+sqlite.horas()+"&estado="+sqlite.estado()+"&nombre="+sqlite.nombre()+"&apellido="+sqlite.apellido());
 					ut.publicar(getFragmentManager(),param);
+					ut.actualizarDatos(getFragmentManager(), act);
 					setData();
 					((BaseAdapter) mList.getAdapter()).notifyDataSetChanged();
 					t.setText("");
